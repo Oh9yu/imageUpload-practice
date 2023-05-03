@@ -24,6 +24,12 @@ function App() {
     };
   };
 
+  useEffect(() => {
+    fetch("http://10.58.52.82:2000/image")
+      .then((res) => res.json())
+      .then((data) => setSrc(data));
+  }, []);
+
   const clickHandler = () => {
     fetch("http://10.58.52.82:2000/image", {
       method: "POST",
@@ -31,13 +37,7 @@ function App() {
       body: JSON.stringify({ base64Image: inputValue }),
     })
       .then((res) => res.json())
-      .then((res) => {
-        if (res.message === "Image has been posted") {
-          fetch("http://10.58.52.82:2000/image")
-            .then((res) => res.json())
-            .then((data) => setSrc(data));
-        }
-      });
+      .then((res) => setSrc(res.data));
   };
 
   console.log(src);
