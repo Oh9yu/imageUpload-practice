@@ -3,6 +3,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import ImageCard from "./ImageCard";
 
 function App() {
   const [inputValue, setInputValue] = useState();
@@ -23,8 +24,6 @@ function App() {
     };
   };
 
-  console.log(inputValue);
-
   const clickHandler = () => {
     fetch("http://10.58.52.82:2000/image", {
       method: "POST",
@@ -33,13 +32,15 @@ function App() {
     })
       .then((res) => res.json())
       .then((res) => {
-        if (res.message === "ok") {
+        if (res.message === "Image has been posted") {
           fetch("http://10.58.52.82:2000/image")
             .then((res) => res.json())
             .then((data) => setSrc(data));
         }
       });
   };
+
+  console.log(src);
 
   return (
     <Container>
@@ -50,9 +51,14 @@ function App() {
       <ImageSection>
         {src?.map((data) => {
           return (
-            <ImageCard>
-              <Content src={data.image} key={data._id} />
-            </ImageCard>
+            <ImageCard
+              key={data.imageId}
+              id={data.imageId}
+              img={data.image}
+              setSrc={(e) => {
+                setSrc(e);
+              }}
+            />
           );
         })}
       </ImageSection>
@@ -87,14 +93,4 @@ const FileInput = styled.input``;
 
 const Btn = styled.button`
   height: 30px;
-`;
-
-const ImageCard = styled.div`
-  width: 150px;
-  margin: 10px;
-`;
-
-const Content = styled.img`
-  width: 100%;
-  border-radius: 10px;
 `;
