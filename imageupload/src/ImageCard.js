@@ -4,7 +4,7 @@ import { FiXCircle } from "react-icons/fi";
 
 const ImageCard = ({ id, img, setSrc }) => {
   const deleteHandler = () => {
-    fetch("http://10.58.52.82:2000/image", {
+    fetch("http://10.58.52.52:2000/image", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ imageId: id }),
@@ -37,10 +37,13 @@ export default ImageCard;
 const ImageSection = styled.div`
   position: relative;
   width: 150px;
+  max-height: 150px;
   margin: 10px;
+  background-color: #f1f1f1;
 `;
 
 const Content = styled.img`
-  width: 100%;
+  max-width: 150px;
+  max-height: 150px;
   border-radius: 10px;
 `;
